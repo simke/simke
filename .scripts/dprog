@@ -1,0 +1,30 @@
+#!/bin/bash
+ 
+if [ -f $HOME/.dmenurc ]; then
+  . $HOME/.dmenurc
+else
+  DMENU='dmenu -i'
+fi
+ 
+prog="wlanfix
+daur
+darch
+autostart.sh
+.xinitrc
+rc.conf
+.scripts
+obnovi_sve"
+ 
+cmd=$($DMENU -fn "-*-nu-*-*-*-*-*-*-*-*-*-*-*-*" <<< "$prog")
+ 
+case ${cmd%% *} in
+        .scripts)         exec thunar ~/.scripts;;
+        obnovi_sve)       exec xterm -e "packer -Syu --noedit --noconfirm --quiet";;
+		wlanfix)          exec xterm -e "sudo iwconfig wlan0 rate 5.5M auto";;
+        .xinitrc)         exec medit ~/.xinitrc;;
+        autostart.sh)     exec medit ~/.config/openbox/autostart.sh;;
+        daur)             exec  ~/.scripts/daur;;
+        darch)            exec  ~/.scripts/darch;;
+		rc.conf)          exec gksu medit /etc/rc.conf;;
+		*)                exec "'${cmd}'"  ;;
+esac

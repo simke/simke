@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ -f $HOME/.dmenurc ]; then
+  . $HOME/.dmenurc
+else
+  DMENU='dmenu_run -i'
+fi
+
+exe=`dmenu_path | $DMENU ${1+"$@"}` && exec $exe

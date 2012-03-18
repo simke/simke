@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ -f $HOME/.dmenurc ]; then
+  . $HOME/.dmenurc
+else
+  DMENU='dmenu -i'
+fi
+
+GS=`cat ~/.archhist | $DMENU $*`
+
+if grep -q "$GS" "$HOME/.archhist" ; then
+    echo already exists in history
+else
+    echo $GS >> ~/.archhist
+fi
+
+firefox -new-tab "https://aur.archlinux.org/packages.php?O=0&K="$GS"&do_Search=Go"
