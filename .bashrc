@@ -59,7 +59,7 @@ alias swap='s swapoff -a && swapon -a'
 alias off='s shutdown'
 alias reb='s reboot'
 alias tresh='s rm -r -f /home/simke/.local/share/Trash'
-alias ping='ping -c 4 www.googe.com'
+alias ping='ping -c 4 www.google.com'
 alias alijas='cat ~/.bashrc | grep alias'
 alias wlanauto='s iwconfig wlan0 rate 5.5M auto'
 alias wlanfix='s iwconfig wlan0 rate 5.5M fixed'
@@ -76,29 +76,24 @@ alias xdg-arch='xdg_menu --format awesome --root-menu /etc/xdg/menus/arch-applic
 alias monitor='xset dpms'
 
 ppp() {
-	s pppoe-stop;
-	sleep 1;
-	s pppoe-start;
+	s "pppoe-stop && pppoe-start";
 }
 
 rprobe() {
-	s modprobe -r $1;
-	s modprobe $1;
+	s "modprobe -r $1 && modprobe $1";
 }
 wprobe() {
-	s rmmod $1;
-	s modprobe $1;
-	s modprobe rtap_iface=$2 $1;
+	s "rmmod $1 && modprobe $1 && modprobe rtap_iface=$2 $1";
 }
 chscr() {
 	s chmod +x ~/.scripts/$1;
 }
 tintre() {
-        killall -e tint2;
-        killall -e perl /usr/share/volwheel/volwheel;
-        tint2;
-        /usr/bin/volwheel;
-		exit
+	killall -e tint2;
+	killall -e perl /usr/share/volwheel/volwheel;
+	tint2;
+	/usr/bin/volwheel;
+	exit
 }
 goto() {
 	[ -d "$1" ] && cd "$1" || cd "$(dirname "$1")";
