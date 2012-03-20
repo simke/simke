@@ -80,7 +80,7 @@ xinitrc() {
 /etc/X11/xorg.conf.d() {
 	echo "Files in /etc/X11/xorg.conf.d/" && echo
 	ls -l /etc/X11/xorg.conf.d/ | grep ^- | awk '{print $9}' 
-	echo && echo "ENTER NAME OF FILE OR PRESS ENTER TO EXIT:" && read ans
+	echo && echo "ENTER FILE NAME OR PRESS ENTER TO EXIT:" && read ans
 	if [[ -z $ans ]]; then
 		return
 	else
@@ -134,7 +134,7 @@ CPUFREQ() {
 #Rebuild kernel
 anykernel() {
 	[[ $UID -ne 0 ]] && dialog --msgbox "Need the rights of root! Log in as root and try again." 6 60 && return
-	echo "ENTER SHORT NAME OF KERNEL (-lts -ck -bfs...) OR PRESS ENTER FOR DEFAULT:" && read kerver 
+	echo "ENTER SHORT KERNEL NAME (-lts -ck -bfs...) OR PRESS ENTER FOR DEFAULT:" && read kerver 
 	filename="/etc/mkinitcpio.d/linux$kerver.preset"
 	if [ -e $filename ]; then
 		mkinitcpio -p linux$kerver && echo && echo --- Finished --- && read
@@ -178,7 +178,7 @@ allupdate() {
 /var/log() {
 	echo "Files in /var/log/" && echo
 	ls -l /var/log/ | grep ^- | awk '{print $9}' 
-	echo && echo "ENTER NAME OF FILE OR PRESS ENTER TO EXIT:" && read ans
+	echo && echo "ENTER FILE NAME OR PRESS ENTER TO EXIT:" && read ans
 	filename="/var/log/$ans"
 	if [[ -z $ans ]]; then
 		return
