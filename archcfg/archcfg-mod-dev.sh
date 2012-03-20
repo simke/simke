@@ -1,17 +1,13 @@
 #!/bin/bash
 #arch linux configuration script
-#This script is intended for inexperienced Arch Linux users and can aid with the request about system files. 
-#Furthermore the script can give information about hardware.
 #
 #goranvxiii@gmail.com
 
-VER='dev'
+VER='0.7.6'
 
 #who are you
 if [[ $UID -eq 0 ]]; then
-	if [[ $USER == "root" ]]; then 
-		dialog --msgbox "Run me whit 'su -c'" 5 24
-	fi
+	[[ $USER == "root" ]] && dialog --msgbox "Run me whit 'su -c'" 5 24
 	dialog --infobox "***Loading***" 3 17
 else
 	dialog --msgbox "***Read-only mode***" 5 24
@@ -21,7 +17,7 @@ fi
 #set editor
 [[ ! $EDITOR ]] && EDITOR=nano
 
-#count new package
+#count new packages
 _numpkg=0
 for a in $( `echo pacman -Qqu` ); do 
 	(( _numpkg++ )) 
@@ -134,10 +130,7 @@ CPUFREQ() {
 
 #Rebuild kernel
 anykernel() {
-	if [[ $UID -ne 0 ]]; then
-		dialog --msgbox "Need the rights of root! Log in as root and try again." 6 60
-		return
-	fi
+	[[ $UID -ne 0 ]] && dialog --msgbox "Need the rights of root! Log in as root and try again." 6 60 && return
 	echo "ENTER SHORT NAME OF KERNEL (-lts -ck -bfs...) OR PRESS ENTER FOR DEFAULT:" && read kerver 
 	filename="/etc/mkinitcpio.d/linux$kerver.preset"
 	if [ -e $filename ]; then
@@ -150,10 +143,7 @@ anykernel() {
 
 #Sytemupdate 
 update() {
-	if [[ $UID -ne 0 ]]; then
-		dialog --msgbox "Need the rights of root! Log in as root and try again." 6 60
-		return
-	fi
+	[[ $UID -ne 0 ]] && dialog --msgbox "Need the rights of root! Log in as root and try again." 6 60 && return
 	pacman -Syu && echo && echo --- Finished --- && read
 	return
 }
@@ -200,10 +190,7 @@ allupdate() {
 
 #cfdisk
 cfdisk() {
-	if [[ $UID -ne 0 ]]; then
-		dialog --msgbox "Need the rights of root! Log in as root and try again." 6 60
-		return
-	fi
+	[[ $UID -ne 0 ]] && dialog --msgbox "Need the rights of root! Log in as root and try again." 6 60 && return
 	exe='cfdisk' && exec $exe #$CFDISK
 	return
 }
@@ -251,7 +238,7 @@ Versionshinweise() {
 #############################################################################################################
 
 main_menu() {
-	dialog --title "Arch Linux system configuration script. ver $VER." \
+	dialog --title "Arch Linux configuration script. ver $VER." \
 	--menu "You are '$USER'. Editor is '$EDITOR'. New packages '$_numpkg'." 40 150 35 \
 	-configuration ""\
 	XINITRC "/home/$USER/.xinitrc ------------- File read by xinit and startx"\
@@ -284,10 +271,7 @@ main_menu() {
 	TEMP "Show hardware temperature"\
 	VERSION "Release information" 2>$_temp
 	opt=${?}
-	if [ $opt != 0 ]; then 
-		rm $_temp
-		exit
-	fi
+	[ $opt != 0 ] && rm $_temp && exit
 	menuitem=`cat $_temp`
 	case $menuitem in
 		XINITRC) xinitrc;;
@@ -319,6 +303,7 @@ main_menu() {
 	esac
 }
 
+#start program
 while true; do
 	main_menu
 done
