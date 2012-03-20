@@ -20,19 +20,19 @@ export VARIABLE=content
 
 s() { su -c "$*";}
 
-alias p='sudo pacman-color'
-alias S='sudo pacman-color -S --needed'
+alias p='s pacman-color'
+alias S='s pacman-color -S --needed'
 alias Ss='pacman-color -Ss'
 alias Q='pacman-color -Q'
 alias Qi='pacman-color -Qi'
-alias R='sudo pacman-color -Run'
-alias Ra='sudo pacman-color -Runsc'
-alias Syu='sudo pacman-color -Syu'
-alias popt='sudo pacman-optimize'
-alias rmdblck='sudo rm /var/lib/pacman/db.lck'
+alias R='s pacman-color -Run'
+alias Ra='s pacman-color -Runsc'
+alias Syu='s pacman-color -Syu'
+alias popt='s pacman-optimize'
+alias rmdblck='s rm /var/lib/pacman/db.lck'
 alias y='yaourt'
 alias yy='yaourt -Syua'
-alias pacdif='sudo pacdiffviewer'
+alias pacdif='s pacdiffviewer'
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -55,14 +55,14 @@ alias h='history'
 alias hist='history | grep $1'
 alias path='echo -e ${PATH//:/\\n}'
 alias dF='df -kTh'
-alias swap='sudo swapoff -a && swapon -a'
-alias off='sudo shutdown'
-alias reb='sudo reboot'
-alias tresh='sudo rm -r -f /home/simke/.local/share/Trash'
+alias swap='s swapoff -a && swapon -a'
+alias off='s shutdown'
+alias reb='s reboot'
+alias tresh='s rm -r -f /home/simke/.local/share/Trash'
 alias ping='ping -c 4 www.google.com'
 alias alijas='cat ~/.bashrc | grep alias'
-alias wlanauto='sudo iwconfig wlan0 rate 5.5M auto'
-alias wlanfix='sudo iwconfig wlan0 rate 5.5M fixed'
+alias wlanauto='s iwconfig wlan0 rate 5.5M auto'
+alias wlanfix='s iwconfig wlan0 rate 5.5M fixed'
 alias up='cd "$(ls -d */ | dmenu -i)"'
 alias pp='ps $@ -u $USER -o pid,%cpu,%mem,bsdtime,command'
 alias pg='ps -Af | grep $1'
@@ -76,18 +76,19 @@ alias xdg-arch='xdg_menu --format awesome --root-menu /etc/xdg/menus/arch-applic
 alias monitor='xset dpms'
 
 ppp() {
-	sudo pppoe-stop
-	sudo pppoe-start;
+	s pppoe-stop
+	sleep 1
+	s pppoe-start;
 }
 
 rprobe() {
-	sudo modprobe -r $1 && sudo modprobe $1;
+	s modprobe -r $1 && s modprobe $1;
 }
 wprobe() {
-	sudo rmmod $1 && sudo modprobe $1 && sudo modprobe rtap_iface=$2 $1;
+	s rmmod $1 && s modprobe $1 && s modprobe rtap_iface=$2 $1;
 }
 chscr() {
-	sudo chmod +x ~/.scripts/$1;
+	s chmod +x ~/.scripts/$1;
 }
 tintre() {
 	killall -e tint2;
