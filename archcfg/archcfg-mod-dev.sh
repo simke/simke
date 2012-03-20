@@ -1,9 +1,10 @@
 #!/bin/bash
 #arch linux configuration script
-#This script is intended for inexperienced Arch Linux users and can aid with the request about system files. 
+#This script is intended for Arch Linux users and can aid with the request about system files. 
 #Furthermore the script can give information about hardware.
 #
-#goranvxiii@gmail.com
+#(2008-2011) schleby88@googlemail.com
+#(2011-2012) goranvxiii@gmail.com
 
 VER='0.7.6'
 
@@ -167,7 +168,7 @@ allupdate() {
 	return
 }
 
-#pacman log
+#xorg log
 /var/log/Xorg() {
 	$EDITOR /var/log/Xorg.0.log #$F
 	return
@@ -231,7 +232,7 @@ Versionshinweise() {
 	dialog --backtitle "Release information"\
 		--begin 3 5 --title " viewing File: $filename "\
 		--textbox $filename 20 100
-	rm $filename
+		rm $filename
 	else
 		dialog --msgbox "*** ERROR ***\n$filename does not exist" 6 80
 	fi
@@ -272,6 +273,7 @@ main_menu() {
 	HDD "Show hard disc allocation "\
 	TEMP "Show hardware temperature"\
 	VERSION "Release information" 2>$_temp
+	
 	opt=${?}
 	[ $opt != 0 ] && rm $_temp && exit
 	menuitem=`cat $_temp`
