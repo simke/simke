@@ -6,7 +6,7 @@
 #(2008-2011) schleby88@googlemail.com
 #(2011-2012) goranvxiii@gmail.com
 
-VER='0.7.6'
+VER='git'
 
 #who are you
 if [[ $UID -eq 0 ]]; then

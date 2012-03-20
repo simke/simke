@@ -1,0 +1,19 @@
+# Maintainer: simke <goranvaiii@gmail.com>
+
+pkgname=archcfg-mod
+pkgver=git
+pkgrel=1
+pkgdesc="Arch Linux configuration script."
+url="https://bbs.archlinux.org/viewtopic.php?id=137504"
+depends=()
+optdepends=()
+source=("http://dl.dropbox.com/u/15144878/archcfg-mod-$pkgver.sh")
+arch=('i686' 'x86_64')
+license=('GPL')
+md5sums=('')
+
+build() {
+	mkdir -p $pkgdir/usr/bin/
+	install -m755 archcfg-mod-$pkgver.sh $pkgdir/usr/bin/archcfg
+}
+
