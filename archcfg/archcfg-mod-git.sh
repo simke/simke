@@ -3,7 +3,6 @@
 #This script is intended for Arch Linux users and can aid with the request about system files. 
 #Furthermore the script can give information about hardware.
 #
-#(2008-2011) schleby88@googlemail.com
 #(2011-2012) goranvxiii@gmail.com
 
 VER='git'
@@ -32,7 +31,7 @@ PN=`basename "$0"`
 dialog 2>$_temp
 DVER=`cat $_temp | head -1`
 
-# Cleanup temporary file in case of keyboard interrupt or termination signal.
+# cleanup temporary file in case of keyboard interrupt or termination signal.
 function cleanup_temp {
 	[ -e $_temp ] && rm --force $_temp
 	exit 0
@@ -43,18 +42,18 @@ trap cleanup_temp SIGHUP SIGINT SIGPIPE SIGTERM
 
 #edit xinitrc
 xinitrc() {
-	filename="/home/$USER"
-	if [ -d $filename ]; then
+	filename="/home/$USER/.xinitrc"
+	if [ -e $filename ]; then
 		$EDITOR /home/$USER/.xinitrc 
 	else
-		dialog --msgbox "*** ERROR ***\n$filename does not exist" 6 80
+		dialog --msgbox "*** ERROR ***\n$filename does not exist" 6 60
 	fi
 	return
 }
 
 #edit rc.conf
 /etc/rc.conf() {
-	$EDITOR /etc/rc.conf #$R
+	$EDITOR /etc/rc.conf 
 	return
 }
 
@@ -66,13 +65,13 @@ xinitrc() {
 
 #edit pacman.conf
 /etc/pacman.conf() {
-	$EDITOR /etc/pacman.conf #$P
+	$EDITOR /etc/pacman.conf 
 	return
 }
 
 #edit mirrorliste
 /etc/pacman.d/mirrorlist() {
-	$EDITOR /etc/pacman.d/mirrorlist #$M
+	$EDITOR /etc/pacman.d/mirrorlist 
 	return
 }
 
@@ -84,50 +83,50 @@ xinitrc() {
 	if [[ -z $ans ]]; then
 		return
 	else
-		$EDITOR /etc/X11/xorg.conf.d/$ans #$X
+		$EDITOR /etc/X11/xorg.conf.d/$ans 
 	fi
 	return
 }
 
 #edit smb.conf
 /etc/samba/smb.conf() {
-	$EDITOR /etc/samba/smb.conf #$S
+	$EDITOR /etc/samba/smb.conf 
 	return
 }
 
 #edit inittab
 /etc/inittab() {
-	$EDITOR /etc/inittab #$I
+	$EDITOR /etc/inittab 
 	return
 }
 
 #edit grub menu.lst
 /boot/grub/menu.lst() {
-	$EDITOR /boot/grub/menu.lst #$O
+	$EDITOR /boot/grub/menu.lst 
 	return
 }
 
 #edit grub2 grub.cfg
 /boot/grub/grub.cfg() {
-	$EDITOR /boot/grub/grub.cfg #$G
+	$EDITOR /boot/grub/grub.cfg 
 	return
 }
 
 #edit fstab
 /etc/fstab() {
-	$EDITOR /etc/fstab #$F
+	$EDITOR /etc/fstab 
 	return
 }
 
 #cpufreq
 CPUFREQ() {
-	$EDITOR /etc/conf.d/cpufreq #$CPUFREQ
+	$EDITOR /etc/conf.d/cpufreq 
 	return
 }
 
 #edit mkinitcpio.conf
 /etc/mkinitcpio.conf() {
-	$EDITOR /etc/mkinitcpio.conf #$H
+	$EDITOR /etc/mkinitcpio.conf 
 	return
 }
 
@@ -139,7 +138,7 @@ anykernel() {
 	if [ -e $filename ]; then
 		mkinitcpio -p linux$kerver && echo && echo --- Finished --- && read
 	else
-		dialog --msgbox  "*** ERROR ***\n'linux$kerver' does not exist" 6 80
+		dialog --msgbox  "*** ERROR ***\n'linux$kerver' does not exist" 6 60
 	fi
 	return
 }
@@ -157,20 +156,20 @@ allupdate() {
 	if [ -e $filename ]; then
 		yaourt -Syua && echo && echo --- Finished --- && read
 	else
-		dialog --msgbox "*** ERROR ***\n'$filename' does not exist" 6 80
+		dialog --msgbox "*** ERROR ***\n'$filename' does not exist" 6 60
 	fi
 	return
 }
 
 #pacman log
 /var/log/pacman() {
-	$EDITOR /var/log/pacman.log #$F
+	$EDITOR /var/log/pacman.log 
 	return
 }
 
 #xorg log
 /var/log/Xorg() {
-	$EDITOR /var/log/Xorg.0.log #$F
+	$EDITOR /var/log/Xorg.0.log
 	return
 }
 
@@ -183,7 +182,7 @@ allupdate() {
 	if [[ -z $ans ]]; then
 		return
 	elif [ -e $filename ]; then
-		$EDITOR /var/log/$ans #$X
+		$EDITOR /var/log/$ans 
 	else
 		echo && echo "FILE '$ans' DOES NOT EXIST!" && echo
 		/var/log
@@ -194,7 +193,7 @@ allupdate() {
 #cfdisk
 cfdisk() {
 	[[ $UID -ne 0 ]] && dialog --msgbox "Need the rights of root! Log in as root and try again." 6 60 && return
-	exe='cfdisk' && exec $exe #$CFDISK
+	exe='cfdisk' && exec $exe 
 	return
 }
 
@@ -227,7 +226,6 @@ Versionshinweise() {
 	touch /tmp/ver.txt
 	echo "This script is only for Arch Linux users. Use at one's own risk!" >/tmp/ver.txt
 	echo "Version $VER" >> /tmp/ver.txt
-	echo "(2008-2011) schleby88@googlemail.com" >> /tmp/ver.txt
 	echo "(2011-2012) goranvxiii@gmail.com" >> /tmp/ver.txt
 	filename="/tmp/ver.txt"
 	if [ -e $filename ]; then
@@ -246,12 +244,12 @@ main_menu() {
 	dialog --title "Arch Linux configuration script. ver $VER." \
 	--menu "You are '$USER'. Editor is '$EDITOR'. New packages '$_numpkg'." 40 150 35 \
 	-configuration ""\
-	XINITRC "/home/$USER/.xinitrc ------------- File read by xinit and startx"\
+	XINITRC "\$HOME/.xinitrc ------------------- File read by xinit and startx"\
 	RC.CONF "/etc/rc.conf --------------------- Main Configuration file"\
 	MODPROBE "/etc/modporbe.d/modprobe.conf----  Pass module settings to udev"\
 	PACMAN.CONF "/etc/pacman.conf ----------------- Configuration file for Pacman"\
 	MIRRORS "/etc/pacman.d/mirrorlist --------- Pacman's serverlist"\
-	X11 "/etc/X11/xorg.conf.d/$ ----------- Configuration file's for X11"\
+	X11 "/etc/X11/xorg.conf.d/* ----------- Configuration file's for X11"\
 	INIT "/etc/inittab --------------------- Configuration file for init systems"\
 	SAMBA "/etc/samba/smb.conf -------------- Configuration file for samba"\
 	OLDGRUB "/boot/grub/menu.lst -------------- GRUB configuration file for booting"\
@@ -264,7 +262,7 @@ main_menu() {
 	LOG_XORG "Xorg log ------------------------- Read xorg log"\
 	LOG "Any log -------------------------- Read any log"\
 	-commands ""\
-	ANY_KERNEL "Mkinitcpio -p linux$ ------------- Rebuild any kernel"\
+	ANY_KERNEL "Mkinitcpio -p linux* ------------- Rebuild any kernel"\
 	PACMAN "Pacman -Syu ---------------------- Complete system update"\
 	YAOURT "Yaourt -Syua --------------------- Complete system and AUR update"\
 	-programs ""\
