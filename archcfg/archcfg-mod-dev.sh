@@ -227,6 +227,8 @@ Versionshinweise() {
 	touch /tmp/ver.txt
 	echo "This script is only for Arch Linux users. Use at one's own risk!" >/tmp/ver.txt
 	echo "Version $VER" >> /tmp/ver.txt
+	echo "(2008-2011) schleby88@googlemail.com" >> /tmp/ver.txt
+	echo "(2011-2012) goranvxiii@gmail.com" >> /tmp/ver.txt
 	filename="/tmp/ver.txt"
 	if [ -e $filename ]; then
 	dialog --backtitle "Release information"\
