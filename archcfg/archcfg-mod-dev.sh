@@ -1,5 +1,7 @@
 #!/bin/bash
 #arch linux configuration script
+#This script is intended for inexperienced Arch Linux users and can aid with the request about system files. 
+#Furthermore the script can give information about hardware.
 #
 #goranvxiii@gmail.com
 
