@@ -1,0 +1,1 @@
+DMENU='dmenu -i -b -nf '#888888' -nb '#222222' -sf '#ffffff' -sb '#285577'' 
