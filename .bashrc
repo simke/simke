@@ -5,6 +5,12 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+unset HISTFILESIZE
+HISTSIZE=10000
+PROMPT_COMMAND="history -a"
+HISTCONTROL=erasedups 
+export HISTSIZE PROMPT_COMMAND
+shopt -s histappend
 
 PS1='\[\e[0;34m\]\u\[\e[m\] \[\e[1;31m\]\w\[\e[m\] 
 \[\e[1;34m\]\$\[\e[m\] \[\e[1;37m\]'
@@ -51,12 +57,12 @@ alias ll='ls -l'
 alias la='ls -al | less'
 alias l.='ls -d .[[:alnum:]]* 2> /dev/null || echo "No hidden file here..."'
 
-alias h='history'
-alias hist='history | grep $1'
+#alias h='history'
+alias hist='history | grep -i $1'
 alias path='echo -e ${PATH//:/\\n}'
 alias dF='df -kTh'
 alias swap='s swapoff -a && swapon -a'
-alias off='s shutdown'
+#alias off='s shutdown'
 alias reb='s reboot'
 alias tresh='s rm -r -f /home/simke/.local/share/Trash'
 alias ping='ping -c 4 www.google.com'
@@ -75,6 +81,18 @@ alias xdg='xdg_menu --format awesome --root-menu /etc/xdg/menus/xfce-application
 alias xdg-arch='xdg_menu --format awesome --root-menu /etc/xdg/menus/arch-applications.menu >> ~/.config/awesome/menu.lua'
 alias monitor='xset dpms'
 
+
+on() {
+	s swapon -a;
+	s modprobe  ndiswrapper;
+	s iwconfig wlan0 rate 5.5M fixed;
+}
+
+off() {
+	s swapoff -a;
+	s modprobe -r ndiswrapper;
+}
+
 ppp() {
 	s pppoe-stop
 	sleep 1
@@ -85,17 +103,15 @@ rprobe() {
 	s modprobe -r $1 && s modprobe $1;
 }
 wprobe() {
-	s rmmod $1 && s modprobe $1 && s modprobe rtap_iface=$2 $1;
+	s rmmod $1 && s modprobe $1 && s modprobe $1 rtap_iface=$2;
 }
 chscr() {
 	s chmod +x ~/.scripts/$1;
 }
 tintre() {
 	killall -e tint2;
-	killall -e perl /usr/share/volwheel/volwheel;
 	tint2;
-	/usr/bin/volwheel;
-	exit
+	exit 0
 }
 goto() {
 	[ -d "$1" ] && cd "$1" || cd "$(dirname "$1")";
